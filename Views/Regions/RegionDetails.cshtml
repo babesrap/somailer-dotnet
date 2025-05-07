@@ -1,0 +1,46 @@
+@model dotnetprojekt.Models.Region
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container px-4 py-8 mx-auto">
+    <nav class="text-sm mb-6 text-gray-500">
+        <a asp-action="Index" class="hover:text-wine-600">Regions</a> &gt; 
+        <span>@Model.Country.Name</span> &gt;
+        <span class="text-wine-600">@Model.Name</span>
+    </nav>
+
+    <div class="bg-beige-100 rounded-lg shadow-md overflow-hidden mb-8">
+        <div class="bg-wine-700 text-white p-6">
+            <h1 class="text-3xl font-bold">@Model.Name</h1>
+            <p class="text-lg">@Model.Country.Name</p>
+        </div>
+
+        <div class="p-6">
+            <h2 class="text-xl font-semibold text-wine-700 mb-4">Wineries in @Model.Name</h2>
+            
+            @if (Model.Wineries != null && Model.Wineries.Any())
+            {
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @foreach (var winery in Model.Wineries)
+                    {
+                        <div class="bg-white rounded shadow p-4">
+                            <h3 class="text-lg font-medium">@winery.Name</h3>
+                            @if (!string.IsNullOrEmpty(winery.Website))
+                            {
+                                <a href="@winery.Website" target="_blank" class="text-wine-600 hover:underline text-sm">
+                                    Visit Website
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-gray-500">No wineries found in this region.</p>
+            }
+        </div>
+    </div>
+</div>

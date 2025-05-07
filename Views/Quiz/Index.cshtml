@@ -1,0 +1,283 @@
+@model dotnetprojekt.Models.QuizViewModel
+@{
+    ViewData["Title"] = "Wine Personality Quiz";
+}
+
+<div class="min-h-screen bg-beige-400">
+    <div class="container mx-auto px-4 py-8">
+        <div class="text-center mb-10">
+            <h1 class="text-beige-200 font-bold text-5xl font-dancing-script mb-4">Discover Your Wine Personality</h1>
+            <p class="text-xl text-gray-700">Answer a few questions to find wines that match your unique taste preferences</p>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-8 max-w-3xl mx-auto">
+            <form asp-controller="Quiz" asp-action="ProcessQuiz" method="post">
+                <!-- Wine Type Preference -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">@Html.DisplayNameFor(m => m.WineTypePreference)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <input type="radio" id="type-red" name="WineTypePreference" value="red" class="hidden peer" required>
+                            <label for="type-red" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <div class="w-full text-wine-600 mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6a2 2 0 014 0v13M9 19h6"/>
+                                    </svg>
+                                </div>
+                                <span class="font-medium peer-checked:text-wine-700">Red Wine</span>
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <input type="radio" id="type-white" name="WineTypePreference" value="white" class="hidden peer">
+                            <label for="type-white" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <div class="w-full text-wine-600 mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19c-2.3 0-3.5-1.3-3.5-3.5 0-1 .5-1.5 1-2.5.4-.9 1-2 1-4V6c0-1.1.9-2 2-2s2 .9 2 2v3c0 2 .6 3.1 1 4 .5 1 1 1.5 1 2.5 0 2.2-1.2 3.5-3.5 3.5h-1z"/>
+                                    </svg>
+                                </div>
+                                <span class="font-medium peer-checked:text-wine-700">White Wine</span>
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <input type="radio" id="type-any" name="WineTypePreference" value="any" class="hidden peer">
+                            <label for="type-any" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <div class="w-full text-wine-600 mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                    </svg>
+                                </div>
+                                <span class="font-medium peer-checked:text-wine-700">No Preference</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sweetness Preference -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">@Html.DisplayNameFor(m => m.SweetnessPreference)</h3>
+                    <div class="flex flex-col space-y-2">
+                        <div class="flex justify-between px-2">
+                            <span>Dry (1)</span>
+                            <span>Sweet (5)</span>
+                        </div>
+                        <input type="range" asp-for="SweetnessPreference" min="1" max="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-wine-600">
+                        <div class="flex justify-between px-2 text-xs text-gray-500">
+                            <span>Crisp, minimal sugar</span>
+                            <span>Distinctly sweet</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Acidity Preference -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">@Html.DisplayNameFor(m => m.AcidityPreference)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <input type="radio" id="acidity-1" name="AcidityPreference" value="1" class="hidden peer">
+                            <label for="acidity-1" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <span class="font-medium peer-checked:text-wine-700">Low</span>
+                                <p class="text-sm text-gray-500">Mellow, soft taste</p>
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <input type="radio" id="acidity-2" name="AcidityPreference" value="2" class="hidden peer">
+                            <label for="acidity-2" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <span class="font-medium peer-checked:text-wine-700">Medium</span>
+                                <p class="text-sm text-gray-500">Balanced acidity</p>
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <input type="radio" id="acidity-3" name="AcidityPreference" value="3" class="hidden peer">
+                            <label for="acidity-3" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <span class="font-medium peer-checked:text-wine-700">High</span>
+                                <p class="text-sm text-gray-500">Crisp, zesty taste</p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Body Preference -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">@Html.DisplayNameFor(m => m.BodyPreference)</h3>
+                    <div class="flex flex-col space-y-2">
+                        <div class="flex justify-between px-2">
+                            <span>Light (1)</span>
+                            <span>Full (5)</span>
+                        </div>
+                        <input type="range" asp-for="BodyPreference" min="1" max="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-wine-600">
+                        <div class="flex justify-between px-2 text-xs text-gray-500">
+                            <span>Lighter, more delicate</span>
+                            <span>Rich, intense flavor</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Flavor Preference -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">@Html.DisplayNameFor(m => m.FlavorPreference)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <input type="radio" id="flavor-fruity" name="FlavorPreference" value="fruity" class="hidden peer" required>
+                            <label for="flavor-fruity" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <span class="font-medium peer-checked:text-wine-700">Fruity</span>
+                                <p class="text-sm text-gray-500">Berry, citrus, tropical</p>
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <input type="radio" id="flavor-earthy" name="FlavorPreference" value="earthy" class="hidden peer">
+                            <label for="flavor-earthy" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <span class="font-medium peer-checked:text-wine-700">Earthy</span>
+                                <p class="text-sm text-gray-500">Oak, mushroom, soil</p>
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <input type="radio" id="flavor-spicy" name="FlavorPreference" value="spicy" class="hidden peer">
+                            <label for="flavor-spicy" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <span class="font-medium peer-checked:text-wine-700">Spicy</span>
+                                <p class="text-sm text-gray-500">Pepper, clove, cinnamon</p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Food Pairings -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">@Html.DisplayNameFor(m => m.FoodPairings)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="food-meat" name="FoodPairings" value="meat" class="w-4 h-4 text-wine-600 bg-gray-100 border-gray-300 rounded focus:ring-wine-500">
+                            <label for="food-meat" class="ml-2 text-sm font-medium text-gray-900">Red Meat (Steak, Lamb)</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="food-poultry" name="FoodPairings" value="poultry" class="w-4 h-4 text-wine-600 bg-gray-100 border-gray-300 rounded focus:ring-wine-500">
+                            <label for="food-poultry" class="ml-2 text-sm font-medium text-gray-900">Poultry (Chicken, Turkey)</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="food-seafood" name="FoodPairings" value="seafood" class="w-4 h-4 text-wine-600 bg-gray-100 border-gray-300 rounded focus:ring-wine-500">
+                            <label for="food-seafood" class="ml-2 text-sm font-medium text-gray-900">Seafood (Fish, Shellfish)</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="food-pasta" name="FoodPairings" value="pasta" class="w-4 h-4 text-wine-600 bg-gray-100 border-gray-300 rounded focus:ring-wine-500">
+                            <label for="food-pasta" class="ml-2 text-sm font-medium text-gray-900">Pasta & Italian Cuisine</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="food-cheese" name="FoodPairings" value="cheese" class="w-4 h-4 text-wine-600 bg-gray-100 border-gray-300 rounded focus:ring-wine-500">
+                            <label for="food-cheese" class="ml-2 text-sm font-medium text-gray-900">Cheese & Charcuterie</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="food-dessert" name="FoodPairings" value="dessert" class="w-4 h-4 text-wine-600 bg-gray-100 border-gray-300 rounded focus:ring-wine-500">
+                            <label for="food-dessert" class="ml-2 text-sm font-medium text-gray-900">Desserts & Chocolate</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Price Range -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">@Html.DisplayNameFor(m => m.PriceRange)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <input type="radio" id="price-budget" name="PriceRange" value="budget" class="hidden peer" required>
+                            <label for="price-budget" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <span class="font-medium peer-checked:text-wine-700">Budget-Friendly</span>
+                                <p class="text-sm text-gray-500">Under $15</p>
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <input type="radio" id="price-mid" name="PriceRange" value="mid-range" class="hidden peer">
+                            <label for="price-mid" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <span class="font-medium peer-checked:text-wine-700">Mid-Range</span>
+                                <p class="text-sm text-gray-500">$15 - $30</p>
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <input type="radio" id="price-premium" name="PriceRange" value="premium" class="hidden peer">
+                            <label for="price-premium" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <span class="font-medium peer-checked:text-wine-700">Premium</span>
+                                <p class="text-sm text-gray-500">$30+</p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Occasions -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">@Html.DisplayNameFor(m => m.Occasion)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <input type="radio" id="occasion-casual" name="Occasion" value="casual" class="hidden peer" required>
+                            <label for="occasion-casual" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <span class="font-medium peer-checked:text-wine-700">Casual Drinking</span>
+                                <p class="text-sm text-gray-500">Everyday enjoyment</p>
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <input type="radio" id="occasion-dinner" name="Occasion" value="dinner" class="hidden peer">
+                            <label for="occasion-dinner" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <span class="font-medium peer-checked:text-wine-700">Dinner Parties</span>
+                                <p class="text-sm text-gray-500">Food-focused events</p>
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <input type="radio" id="occasion-special" name="Occasion" value="special" class="hidden peer">
+                            <label for="occasion-special" class="block p-4 text-center border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-wine-600 peer-checked:bg-wine-50 hover:bg-beige-50 transition-all duration-200">
+                                <span class="font-medium peer-checked:text-wine-700">Special Occasions</span>
+                                <p class="text-sm text-gray-500">Celebrations, gifts</p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button type="submit" class="bg-wine-600 hover:bg-wine-700 text-white font-bold py-3 px-8 rounded-xl transition duration-300">
+                        Get Wine Recommendations
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add active state to radio buttons for better visual feedback
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+        
+        radioButtons.forEach(radio => {
+            // Set initial state
+            if (radio.checked) {
+                const label = document.querySelector(`label[for="${radio.id}"]`);
+                if (label) {
+                    label.classList.add('border-wine-600', 'bg-wine-50');
+                }
+            }
+            
+            // Add click event to update visuals
+            radio.addEventListener('click', function() {
+                // Reset all in the same group
+                const groupRadios = document.querySelectorAll(`input[name="${this.name}"]`);
+                groupRadios.forEach(groupRadio => {
+                    const groupLabel = document.querySelector(`label[for="${groupRadio.id}"]`);
+                    if (groupLabel) {
+                        if (groupRadio.checked) {
+                            groupLabel.classList.add('border-wine-600', 'bg-wine-50');
+                        } else {
+                            groupLabel.classList.remove('border-wine-600', 'bg-wine-50');
+                        }
+                    }
+                });
+            });
+        });
+    });
+</script>
+}

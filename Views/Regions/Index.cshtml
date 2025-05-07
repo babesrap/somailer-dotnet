@@ -1,0 +1,44 @@
+@model IEnumerable<dotnetprojekt.Models.Country>
+
+@{
+    ViewData["Title"] = "Wine Regions";
+}
+
+<div class="container px-4 py-8 mx-auto">
+    <h1 class="text-3xl font-bold text-wine-700 mb-8">Wine Regions by Country</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @foreach (var country in Model)
+        {
+            <div class="bg-beige-100 rounded-lg shadow-md overflow-hidden">
+                <div class="bg-wine-700 text-white px-4 py-3">
+                    <h2 class="text-xl font-semibold">@country.Name</h2>
+                    <p class="text-sm">@(country.Regions?.Count() ?? 0) regions</p>
+                </div>
+                <div class="px-4 py-3">
+                    @if (country.Regions?.Any() == true)
+                    {
+                        <ul class="divide-y divide-beige-200">
+                            @foreach (var region in country.Regions.OrderBy(r => r.Name))
+                            {
+                                <li class="py-2">
+                                    <a asp-action="RegionDetails" asp-route-id="@region.Id" 
+                                       class="text-wine-600 hover:text-wine-800 hover:underline flex justify-between items-center">
+                                        <span>@region.Name</span>
+                                        <span class="text-sm text-gray-500">
+                                            @(region.Wineries?.Count() ?? 0) wineries
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-gray-500 py-2">No specific regions available</p>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
